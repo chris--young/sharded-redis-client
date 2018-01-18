@@ -298,15 +298,13 @@ SHARDABLE.forEach((cmd) => {
         return mainCb.apply(this, arguments);
       }
 
-      // For now, both emit and log. Eventually, logging will be removed
       _this.emit('err', new Error(`sharded-redis-client [${client.address}] err: ${err}`));
-      console.error(new Date().toISOString(), `sharded-redis-client [${client.address }] err: ${err}`);
 
       if (breaker && err.message !== 'breaker open')
         breaker.fail();
 
       if (!client._isMaster) {
-        client = wrappedClient.slaves.next(client);
+        client = wrappedClient.slaves.next(client).data;
 
         if (client._rrindex == startIndex)
           client = findMasterClient(shardKey, _this._wrappedClients);

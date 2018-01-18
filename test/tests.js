@@ -28,12 +28,13 @@ const reporter = {
 const config = {
   spec_dir: './test',
   spec_files: ['**/*.test.js'],
-  helpers: ['helpers.js']
+  helpers: [
+    'helpers.js',
+    '../node_modules/jasmine-expect/index.js'
+  ]
 };
 
 const jasmine = new Jasmine();
-
-require('jasmine-expect');
 
 jasmine.configureDefaultReporter({ print: _.noop });
 jasmine.addReporter(new SpecReporter(reporter));

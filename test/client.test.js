@@ -179,7 +179,7 @@ describe('Test client', () => {
       cb();
     });
 
-    shardedClient.get(key, () => {
+    shardedClient.get(key, (err, res) => {
       slaveClients.forEach((sc) => {
         expect(sc.get).toHaveBeenCalledTimes(1);
         expect(sc.get.calls.argsFor(0).slice(0, -1)).toEqual([key]);
